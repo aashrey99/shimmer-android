@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
     }
 }
 
@@ -96,41 +96,13 @@ signing {
 }
 
 uploadArchives {
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        repository(url: sonatypeRepo) {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
-        }
-
-        pom.project {
-            name 'Shimmer'
-            packaging 'jar'
-            description 'Shimmer effect for Android applications'
-            url 'http://facebook.github.io/shimmer-android'
-
-            scm {
-                url 'scm:git@github.com:facebook/shimmer-android.git'
-                connection 'scm:git@github.com:facebook/shimmer-android.git'
-                developerConnection 'scm:git@github.com:facebook/shimmer-android.git'
-            }
-
-            licenses {
-                license {
-                    name 'BSD 2-Clause License'
-                    url 'https://github.com/facebook/shimmer-android/blob/master/LICENSE'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'jasleen'
-                    name 'Jasleen Singh'
-                    email 'singh.jasleen@gmail.com'
-                }
-            }
+    repositories {
+        mavenDeployer {
+            repository(url: mavenLocal().url)
+            pom.groupId = 'pm.tin.tincan.android'
+            pom.artifactId = 'facebook-shimmer'
+            pom.version = '1.0'
+            pom.packaging = 'aar'
         }
     }
 }
