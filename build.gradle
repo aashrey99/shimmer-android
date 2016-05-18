@@ -35,14 +35,13 @@ android {
     }
 }
 
-
 // Task to upload POM and artifacts to a maven repository
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "${artifactoryRepo}") {
+            repository(url: "${artifactoryDevRepo}") {
                 // Username and API Key
-                authentication(userName: "${artifactoryUploaderUser}", password: "${artifactoryUploaderKey}")
+                authentication(userName: "${artifactoryDevUploaderUser}", password: "${artifactoryDevUploaderKey}")
             }
             pom.groupId = groupIdString
             pom.artifactId = artifactIdString
