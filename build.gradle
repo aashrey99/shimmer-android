@@ -35,13 +35,36 @@ android {
     }
 }
 
-// Task to upload POM and artifacts to a maven repository
-uploadArchives {
+configurations {
+    debugArchives
+    releaseArchives
+}
+
+artifacts {
+    def path = "${project.rootDir}/${project.getName()}/build/outputs/aar/"
+    debugArchives file: file(path + "${project.getName()}-debug.aar")
+    releaseArchives file: file(path + "${project.getName()}-release.aar")
+}
+
+uploadDebugArchives {
     repositories {
         mavenDeployer {
             repository(url: "${artifactoryDevRepo}") {
-                // Username and API Key
                 authentication(userName: "${artifactoryDevUploaderUser}", password: "${artifactoryDevUploaderKey}")
+            }
+            pom.groupId = groupIdString
+            pom.artifactId = artifactIdString
+            pom.version = versionNameString
+            pom.packaging = 'aar'
+        }
+    }
+}
+
+uploadReleaseArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "${artifactoryProdRepo}") {
+                authentication(userName: "${artifactoryProdUploaderUser}", password: "${artifactoryProdUploaderKey}")
             }
             pom.groupId = groupIdString
             pom.artifactId = artifactIdString
